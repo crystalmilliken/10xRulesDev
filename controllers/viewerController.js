@@ -7,7 +7,7 @@ var fetch = require("node-fetch");
 var db = require("../models");
 
 module.exports = function (app) {
-    app.get('/drawing', function (req, res) {
+    app.get('/', function (req, res) {
         res.render("beginDrawing");
     })
     app.get('/list', function (req, res) {

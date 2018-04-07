@@ -1,13 +1,13 @@
-var express = require("express");
+// var express = require("express");
 
-var router = express.Router();
+// var router = express.Router();
 
-var Winner = require("../models/winners.js");
+// var Winner = require("../models/winners.js");
 
-router.get("/winners", function( req, res) {
-    Winner.findAll({}).then(function(data) {
-        console.log(data)
-    });
-    res.end();
-});
-module.exports = router;
+// router.get("/winners", function( req, res) {
+//     Winner.findAll({}).then(function(data) {
+//         console.log(data)
+//     });
+//     res.end();
+// });
+// module.exports = router;
