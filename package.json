@@ -2,7 +2,7 @@
   "name": "10xrulesdev",
   "version": "1.0.0",
   "description": "Twitch Give Away App",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +27,7 @@
     "node-fetch": "^2.1.2",
     "passport": "^0.4.0",
     "passport-oauth": "^1.0.0",
+    "path": "^0.12.7",
     "popmotion": "^8.1.22",
     "request": "^2.85.0",
     "sequelize": "^4.37.5"
