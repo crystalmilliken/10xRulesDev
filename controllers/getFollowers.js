@@ -1,26 +1,13 @@
 
-// var Winner = require("../models/winners.js");
-// var Sequelize = require("sequelize");
-// var sequelize = require("../config/connections.js");
-// var twitchAccount = require("../config/twitchAccountInfo.js")
-// /*
-// Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
-//     http://aws.amazon.com/apache2.0/
-// or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-// */
-
-// // Define our dependencies
-// var express = require('express');
-// var app = express.Router();
-// var session = require('express-session');
-// var passport = require('passport');
-// var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
-// var request = require('request');
-// var handlebars = require('handlebars');
-// var fetch = require("node-fetch");
+var twitchAccount = require("../config/twitchAccountInfo.js");
+var express = require('express');
+var fetch = require("node-fetch");
+var db = require("../models");
+var request = require('request');
+var handlebars = require('handlebars');
+var fetch = require("node-fetch");
 // // Define our constants, you will change these with your own
-
+module.exports = function (app) {
 // // Initialize Express and middlewares
 // var app = express();
 // app.use(session({ secret: twitchAccount.SESSION_SECRET, resave: false, saveUninitialized: false }));
@@ -147,49 +134,51 @@
 //     lookUpUserName(WINNER, res)
 // }
 // // Takes current authenticated user id and gets all followers based on that id
-// function getCurrentFollowers(id, res) {
+function getCurrentFollowers(id, res) {
     
-//     var options = {
-//         url: `https://api.twitch.tv/helix/users/follows?to_id=${id}`,
-//         method: 'GET',
-//         headers: {
-//             'Client-ID': twitchAccount.TWITCH_CLIENT_ID,
-//             'Authorization': 'Bearer ' + currentAccess
-//         }
-//     };
-//     function followerIds(error, response, body) {
-//         //Here is where we would sift through followers for prize
-//         listOfFollowers = [];
-//         if (!error && response.statusCode == 200) {
-//             var info = JSON.parse(body);
-//             info.data.map((x) => {
-//                 listOfFollowers.push(x);
-//             })
-//             pickWinner(listOfFollowers, res);
-//         }
-//     }
-//     request(options, followerIds);
+    var options = {
+        url: `https://api.twitch.tv/helix/users/follows?to_id=${id}`,
+        method: 'GET',
+        headers: {
+            'Client-ID': twitchAccount.TWITCH_CLIENT_ID,
+            // 'Authorization': 'Bearer ' + currentAccess
+        }
+    };
+    function followerIds(error, response, body) {
+        //Here is where we would sift through followers for prize
+        listOfFollowers = [];
+        if (!error && response.statusCode == 200) {
+            var info = JSON.parse(body);
+            info.data.map((x) => {
+                listOfFollowers.push(x);
+            })
+            console.log(listOfFollowers)
+            // pickWinner(listOfFollowers, res);
+        }
+    }
+    request(options, followerIds);
 
-// }
-// app.get('/allFollowers', function (req, res) {
-//         url = `https://api.twitch.tv/helix/users?login=10xrules`;
+}
+app.get('/allFollowers', function (req, res) {
+        url = `https://api.twitch.tv/helix/users?login=10xrules`;
 
-//     request({
-//         url: url,
-//         headers: {
-//             'Client-ID': twitchAccount.TWITCH_CLIENT_ID,
-//             'Authorization': 'Bearer ' + currentAccess
-//         }
-//     }, function (error, response, body) {
-//         // Do more stuff with 'body' here
-//         let info = JSON.parse(body)
-//         //Get id of account being authenticated and send to function to get all followers based on that id
-//         getCurrentFollowers(info.data[0].id, res);
-//     });
+    request({
+        url: url,
+        headers: {
+            'Client-ID': twitchAccount.TWITCH_CLIENT_ID,
+            // 'Authorization': 'Bearer ' + currentAccess
+        }
+    }, function (error, response, body) {
+        // Do more stuff with 'body' here
+        let info = JSON.parse(body)
+        //Get id of account being authenticated and send to function to get all followers based on that id
+        getCurrentFollowers(info.data[0].id, res);
+        console.log(info)
+    });
 
 
-// })
-
+})
+}
 
 // // If user has an authenticated session, display it, otherwise display link to authenticate
 // app.get('/twitch', function (req, res) {

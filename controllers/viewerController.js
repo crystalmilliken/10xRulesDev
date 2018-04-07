@@ -2,12 +2,11 @@
 
 var twitchAccount = require("../config/twitchAccountInfo.js");
 var express = require('express');
-//var Winner = require("../models/winners.js");
 var fetch = require("node-fetch");
 var db = require("../models");
 
 module.exports = function (app) {
-    app.get('/', function (req, res) {
+    app.get('/drawing', function (req, res) {
         res.render("beginDrawing");
     })
     app.get('/list', function (req, res) {

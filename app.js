@@ -12,6 +12,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 require("./controllers/viewerController.js")(app);
+require("./controllers/getFollowers.js")(app);
 
 db.sequelize.sync().then(function() {
     app.listen(PORT, function() {
