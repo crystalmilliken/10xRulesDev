@@ -1,17 +1,14 @@
-var mysql = require('mysql');
+var Sequelize = require("sequelize");
 
-var connection = mysql.createConnection({
+var sequelize = new Sequelize("twitchWinners", "root", "root", {
     host: "localhost",
-    user: "root",
-    password: "root",
-    database: "twitchWinners"
-});
-
-connection.connect(function(err){
-    if(err) {
-        console.log("error connecting");
-        return;
+    dialect: "mysql",
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000
     }
-});
-
-module.exports = connection;
+  });
+  
+  // Exports the connection for other files to use
+  module.exports = sequelize;

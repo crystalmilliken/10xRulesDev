@@ -11,8 +11,13 @@ app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-var routes = require("./controllers/getWinners.js");
-app.use(routes);
+var winnerRoutes = require("./controllers/getWinners.js");
+var followerRoutes = require("./controllers/getFollowers.js");
+var viewerRoutes = require("./controllers/viewerController.js");
+app.use(winnerRoutes);
+app.use(followerRoutes);
+app.use(viewerRoutes);
+
 app.listen(PORT, function() {
     // Log (server-side) when our server has started
     console.log("Server listening on: http://localhost:" + PORT);

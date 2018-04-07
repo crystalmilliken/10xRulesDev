@@ -1,11 +1,20 @@
-var orm = require("../config/orm.js");
+// Dependencies
+// =============================================================
 
-var winners = {
-    getALL: function(callback) {
-        orm.getAllWinners("winners", function(response) {
-            callback(response);
-        })
-    }
-}
+// Sequelize (capital) references the standard library
+var Sequelize = require("sequelize");
+// sequelize (lowercase) references our connection to the DB.
+var sequelize = require("../config/connections.js");
 
-module.exports = winners;
+var Winner = sequelize.define("winner", {
+  name: Sequelize.STRING,
+  timesWon: Sequelize.INTEGER
+}, {
+  timestamps: false
+});
+
+// Syncs with DB
+Winner.sync();
+
+
+module.exports = Winner;
